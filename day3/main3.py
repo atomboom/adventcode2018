@@ -15,6 +15,8 @@ POSy=[]
 SIZEx=[]
 SIZEy=[]
 
+ID_good=[]
+
 for i in range(len(data)):
     str=data[i]
     ID.append(int(str[1:str.find('@')-1]))
@@ -31,5 +33,15 @@ for i in range(len(data)):
     map[POSx[i]:POSx[i]+SIZEx[i],POSy[i]:POSy[i]+SIZEy[i]] +=1
 
 
-print('awnser 1',sum(sum(map>1)))
+
+
+
+
+
+for i in range(len(data)):
+    if sum(sum(map[POSx[i]:POSx[i] + SIZEx[i], POSy[i]:POSy[i] + SIZEy[i]]))== SIZEx[i]* SIZEy[i]:
+        print('awnser 1', sum(sum(map > 1)))
+        print('unique found, id =',ID[i])
+        break
+
 
