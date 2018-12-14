@@ -1,69 +1,27 @@
 import numpy as np
+import time
 #import puzzle input
+from collections import deque, defaultdict
 
+def play_game(max_players, last_marble):
+    scores = defaultdict(int)
+    circle = deque([0])
 
-filename='data'
-file=open(filename,mode='r')
-data = file.read()
+    for marble in range(1, last_marble + 1):
+        if marble % 23 == 0:
+            circle.rotate(7)
+            scores[marble % max_players] += marble + circle.pop()
+            circle.rotate(-1)
+        else:
+            circle.rotate(-1)
+            circle.append(marble)
 
-data=list(map(str,data)) #data to string. list
-
-
-
-
-players=430
-point=71588
-
-
-order=[0,1]
-act=1
-placed=[0,1]
-i=0
-points=[0]*(players+1)
-curr_player=1
-to_place=1
-while True:
-    curr_player +=1
-    to_place+= 1
-    if curr_player > players:
-        curr_player = 1
-
-    if to_place%23==0:
-        act += - 7
-        if act<0:
-            act += len(order)
-        points[curr_player] += to_place + order[act]
-
-        order.pop(act)
-
-    else:
-        place_id=act+2
-
-        if place_id>len(order):
-            place_id=place_id%len(order)
-
-        order.insert(place_id,to_place)
-        act=place_id
+    return max(scores.values()) if scores else 0
 
 
 
-    # if len(placed)%1000 ==0:
-    #     print(max(points))
-    #
-    #     print(len(placed),'|',point)
-    #print(curr_player,'|',order)
-    if to_place >= point :
-        break
 
+max_players=430
+last_marble=7158800
 
-print(points.index(max(points)),max(points),17+2*23)
-
-print(type(points[0]))
-print(type(to_place))
-print(point)
-print(len(order)+252)
-print(point/23)
-print((23*250+1)%23)
-
-
-
+print(play_game(max_players,last_marble))
